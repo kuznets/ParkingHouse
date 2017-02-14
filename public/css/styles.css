@@ -1,0 +1,11 @@
+.invoice-table{
+    padding-left: 5px;
+}
+.order-table{
+    padding-right: 5px;
+    border-right: 1px solid darkgray;
+}
+
+.add-order-form{
+    width: 350px;
+}
