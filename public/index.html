@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Parking House</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body ng-app="myApp" ng-controller="MainCtrl">
+<div class="container" ng-init="checkAuth()">
+    <div class="row">
+        <br>
+        <h2>Parking House</h2>
+        <p>The <strong>Regular</strong> user doesn't have a mounthly fee.</p>
+        <p>The <strong>Premium</strong> user's fee is 20 euro per month.</p>
+        <div class="col-lg-12 loginForm" ng-show="showAuthForm">
+            <p>Select a username for authorization:</p>
+            <select class="form-control" ng-model="selectedLoginUser" ng-options="user.username for user in users"
+                    ng-change="login(selectedLoginUser)">
+                <option value="">Select user</option>
+            </select>
+        </div>
+        <div class="col-lg-12 logoutForm" ng-show="!showAuthForm">
+            <p>Hello, <span ng-bind="cookieUser">{{cookieUser}}</span></p>
+            <button type="button" class="btn btn-primary" ng-click="logout()">Logout</button>
+        </div>
+    </div>
+    <br><br>
+    <div class="row" ng-show="!showAuthForm">
+        <p><strong>Add new order:</strong></p>
+        <div class="col-lg-12">
+            <form class="form-horizontal" role="form" name="addOrderForm" ng-submit="addOrder()">
+                <div class="form-group add-order-form">
+                    <label class="col-sm-2 control-label">Start date</label>
+                    <div class="col-sm-10">
+                        <input type="datetime-local" class="form-control" name="start_park" ng-model="startPark"
+                                placeholder="yyyy-MM-ddTHH:mm:ss" required>
+                    </div>
+                </div>
+                <div class="form-group add-order-form">
+                    <label class="col-sm-2 control-label">Finish date</label>
+                    <div class="col-sm-10">
+                        <input type="datetime-local" class="form-control" ng-model="stopPark"
+                               name="stop_park" placeholder="yyyy-MM-ddTHH:mm:ss" required>
+                    </div>
+                </div>
+                <div class="form-group add-order-form">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default" ng-disabled="addOrderForm.$invalid">Add</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br><br>
+    <div class="row" ng-show="!showAuthForm">
+        <div class="col-lg-6 order-table">
+            <p><strong>Orders:</strong></p>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <td>Order nr.</td>
+                    <td>Start date</td>
+                    <td>Finish date</td>
+                    <td>Price per hour</td>
+                    <td>Total price</td>
+                </tr>
+                </thead>
+                <tr ng-repeat="order in orders">
+                    <td>{{order.id}}</td>
+                    <td>{{order.start_park}}</td>
+                    <td>{{order.stop_park}}</td>
+                    <td>{{order.price}}</td>
+                    <td>{{order.total_price}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-lg-6 invoice-table">
+            <p><strong>Invoices:</strong></p>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <td>Nr.</td>
+                    <td>Date</td>
+                    <td>Total</td>
+                    <td>View</td>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-cookies.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"></script>
+<script src="./js/app.js"></script>
+<script src="./js/script.js"></script>
+
+</body>
+</html>
