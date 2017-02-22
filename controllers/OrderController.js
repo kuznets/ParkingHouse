@@ -1,7 +1,9 @@
 var bodyParser = require('body-parser');
 var db = require(__dirname + '/../db/db.js');
 var Order = require(__dirname + '/../models/Order.js');
+var User = require(__dirname + '/../models/User.js');
 var authorize = require(__dirname + '/authorize.js');
+var orderBuilder = require(__dirname + '/orderBuilder.js');
 
 module.exports = function (app) {
     //Find one order
@@ -34,24 +36,26 @@ module.exports = function (app) {
     });
 
     //Add Order
-    app.get('/api/order', function (req, res) {
-        var foundUser = authorize(req);
-        if (foundUser) {
-            var dt = new Date();
-            var dateStart = setDateNow(dt);
-            console.log(setDateNow(dt));
-            res.send(200);
-        }
-    });
-
-    function setDateNow(dt) {
-        var year = dt.getFullYear();
-        var month = dt.getMonth();
-        var day = dt.getDay();
-        var hour = dt.getHours();
-        var min = dt.getMinutes();
-        var sek = dt.getSeconds();
-        return year+ '.' + month + '.' + day + ' ' + hour + ':' + min + ':' + sek;
-    }
+    // app.post('/api/order', function (req, res) {
+    //     var foundUser = authorize(req);
+    //     if (foundUser) {
+    //         var user = User.findOne(req.body.username);
+    //         if (!user) {
+    //             res.status(404).send('User not found.');
+    //         }
+    //
+    //         var buildOrders = orderBuilder.getOrders(req.body.start_date, req.body.stop_date, user.username);
+    //         if (buildOrders) {
+    //             var userOrders = Order.findByUsername(req.cookies.username);
+    //             if (userOrders.length > 0) {
+    //                 res.send(userOrders);
+    //             } else {
+    //                 res.status(404).send('Orders not found.');
+    //             }
+    //         } else {
+    //             res.sendStatus(401);
+    //         }
+    //     }
+    // });
 
 }

@@ -9,3 +9,40 @@
 .add-order-form{
     width: 350px;
 }
+
+.pop-up-bg {
+    background:url("../img/11.png") repeat scroll 0 0px transparent;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    z-index:500;
+    display: none;
+}
+
+.invoice-frame {
+    width: 550px;
+    background-color: #fff;
+    border-radius: 5px;
+    z-index: 1500;
+    border: 1px solid #ababab;
+    font-size: 12px;
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    margin-left: -260px;
+    padding: 1px;
+}
+
+.pop-up-close {
+    position: absolute;
+    right:-10px;
+    top:-10px;
+    height:21px;
+    width: 21px;
+    cursor: pointer;
+    background:url("../img/del_pop.png") repeat scroll 0 0px transparent;
+    z-index: 501;
+    display: block;
+}

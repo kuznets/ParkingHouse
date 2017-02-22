@@ -26,7 +26,7 @@ module.exports = function (app) {
         }
         var foundUser = User.findOne(req.params.username);
         if (foundUser) {
-            for (key in foundUser) {
+            for (var key in foundUser) {
                 if (key == 'password' && foundUser[key] == req.params.password) {
                     console.log('Auth done!')
                     // return res.send(200);

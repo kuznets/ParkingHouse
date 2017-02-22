@@ -22,6 +22,7 @@ app.get('/', function (req, res) {
 
 var userController = require(__dirname + '/controllers/UserController.js')(app);
 var orderController = require(__dirname + '/controllers/OrderController.js')(app);
+var invoiceController = require(__dirname + '/controllers/InvoiceController.js')(app);
 
 // log to console
 app.use(morgan('dev'));
