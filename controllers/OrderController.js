@@ -3,7 +3,7 @@ var db = require(__dirname + '/../db/db.js');
 var Order = require(__dirname + '/../models/Order.js');
 var User = require(__dirname + '/../models/User.js');
 var authorize = require(__dirname + '/authorize.js');
-var orderBuilder = require(__dirname + '/orderBuilder.js');
+//var orderBuilder = require(__dirname + '/orderBuilder.js');
 
 module.exports = function (app) {
     //Find one order
