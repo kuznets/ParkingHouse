@@ -1,31 +1,38 @@
 delete process.env["DEBUG_FD"];
 var express = require('express');
 var path = require('path');
-
+var logger = require('morgan');
+//var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var morgan = require('morgan');
+var methodOverride = require('method-override')
+var passport = require('passport');
+var jwt = require('jwt-simple');
+var auth = require('./config/auth')();
 
 var port = process.env.PORT || 3000;
 
 var app  = express();
 
-app.use(express.static(__dirname + '/public'));
-app.use(cookieParser());
-
-app.use(bodyParser.urlencoded({ extended: true }));
+// log to console
+app.use(logger('dev'));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(cookieParser());
+app.use(express.static(__dirname + '/public'));
+app.use(methodOverride('_method'))
+
+app.use(passport.initialize());
 
 app.get('/', function (req, res) {
     res.send(path.join(__dirname + '/public/index.html'));
 });
 
+var token = require(__dirname + '/controllers/token.js')(app);
 var userController = require(__dirname + '/controllers/UserController.js')(app);
 var orderController = require(__dirname + '/controllers/OrderController.js')(app);
 var invoiceController = require(__dirname + '/controllers/InvoiceController.js')(app);
 
-// log to console
-app.use(morgan('dev'));
+
 
 app.use(logErrors);
 app.use(clientErrorHandler);

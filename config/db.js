@@ -7,8 +7,6 @@ var sequelize = new Sequelize('parking_house', 'pguser', '12345',
 
     });
 
-
-
 module.exports = function() {
     return sequelize;
 }

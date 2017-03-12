@@ -1,5 +1,5 @@
 var db = require(__dirname + '/../db/db.js');
-var User = require(__dirname + '/../models/User.js');
+var User = require(__dirname + '/../DAO/User.js');
 
 module.exports = function (req) {
     if (!req.cookies.username || !req.cookies.token) {

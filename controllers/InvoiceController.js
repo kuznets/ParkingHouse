@@ -1,5 +1,5 @@
 var db = require(__dirname + '/../db/db.js');
-var Invoices = require(__dirname + '/../models/Invoice.js');
+var Invoices = require(__dirname + '/../DAO/Invoice.js');
 var authorize = require(__dirname + '/authorize.js');
 
 module.exports = function (app) {

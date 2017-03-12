@@ -1,142 +1,174 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="myApp" class="no-js">
 <head>
     <meta charset="UTF-8">
     <title>Parking House</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/styles.css">
+    <!--<base href="/">-->
 </head>
-<body ng-app="myApp" ng-controller="MainCtrl">
-<div class="container" ng-init="checkAuth()">
-    <div class="row">
-        <br>
-        <h2>Parking House</h2>
-        <p>The <strong>Regular</strong> user doesn't have a mounthly fee.</p>
-        <p>The <strong>Premium</strong> user's fee is 20 euro per month.</p>
-        <div class="col-lg-12 loginForm" ng-show="!showAuthForm">
-            <p>Select a username for authorization:</p>
-            <select class="form-control" ng-model="selectedLoginUser" ng-options="user.username for user in users"
-                    ng-change="login(selectedLoginUser)">
-                <option value="">Select user</option>
-            </select>
+<body ng-app='myApp'>
+
+<nav ng-controller="NavbarCtrl" class="navbar navbar-toggleable-md navbar-inverse bg-inverse navbar-b-margin">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="/">Parking House</a>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav mr-auto">
+            <a class="nav-item nav-link" ng-class="{'active':(curPath == 'main')}" href="/">Home</a>
+            <a class="nav-item nav-link" href="#">Add parking</a>
         </div>
-        <div class="col-lg-12 logoutForm" ng-show="showAuthForm">
-            <p>Hello, <span ng-bind="cookieUser">{{cookieUser}}</span></p>
-            <button type="button" class="btn btn-primary" ng-click="logout()">Logout</button>
+        <div class="navbar-nav mt-2 mt-md-0">
+            <a class="nav-item nav-link active" href="#">{{login_username}}</a>
+            <a class="nav-item nav-link active" href="/login">Login</a>
+            <a class="nav-item nav-link active" href="/registration">Sign up</a>
         </div>
     </div>
-    <br><br>
-    <!--<div class="row" ng-show="showAuthForm">-->
-        <!--<p><strong>Add new order:</strong></p>-->
-        <!--<div class="col-lg-12">-->
-            <!--<form class="form-horizontal" role="form" name="addOrderForm" ng-submit="addOrder1()">-->
-                <!--<div class="form-group add-order-form">-->
-                    <!--<label class="col-sm-2 control-label">Start date</label>-->
-                    <!--<div class="col-sm-10">-->
-                        <!--<input type="datetime-local" class="form-control" name="start_park" ng-model="startPark"-->
-                                <!--placeholder="yyyy-MM-ddTHH:mm:ss" requiredd>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="form-group add-order-form">-->
-                    <!--<label class="col-sm-2 control-label">Finish date</label>-->
-                    <!--<div class="col-sm-10">-->
-                        <!--<input type="datetime-local" class="form-control" ng-model="stopPark"-->
-                               <!--name="stop_park" placeholder="yyyy-MM-ddTHH:mm:ss" requiredd>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="form-group add-order-form">-->
-                    <!--<div class="col-sm-offset-2 col-sm-10">-->
-                        <!--<button type="submit" class="btn btn-default" ng-disabledd="addOrderForm.$invalid">Add</button>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</form>-->
+</nav>
+
+<div ng-view></div>
+
+
+<!--<div class="container" ng-init="checkAuth()">-->
+    <!--<div class="row">-->
+        <!--<br>-->
+        <!--<h2>Parking House</h2>-->
+        <!--<p>The <strong>Regular</strong> user doesn't have a mounthly fee.</p>-->
+        <!--<p>The <strong>Premium</strong> user's fee is 20 euro per month.</p>-->
+        <!--<div class="col-lg-12 loginForm" ng-show="!showAuthForm">-->
+            <!--<p>Select a username for authorization:</p>-->
+            <!--<select class="form-control" ng-model="selectedLoginUser" ng-options="user.username for user in users"-->
+                    <!--ng-change="login(selectedLoginUser)">-->
+                <!--<option value="">Select user</option>-->
+            <!--</select>-->
+        <!--</div>-->
+        <!--<div class="col-lg-12 logoutForm" ng-show="showAuthForm">-->
+            <!--<p>Hello, <span ng-bind="cookieUser">{{cookieUser}}</span></p>-->
+            <!--<button type="button" class="btn btn-primary" ng-click="logout()">Logout</button>-->
         <!--</div>-->
     <!--</div>-->
-    <br><br>
-    <div class="row" ng-show="showAuthForm">
-        <div class="col-lg-6 order-table">
-            <p><strong>Orders:</strong></p>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <td>Order nr.</td>
-                    <td>Start date</td>
-                    <td>Finish date</td>
-                    <td>Price per 30 min.</td>
-                    <td>Total price</td>
-                </tr>
-                </thead>
-                <tr ng-repeat="order in orders">
-                    <td>{{order.id}}</td>
-                    <td>{{order.start_date}}</td>
-                    <td>{{order.stop_date}}</td>
-                    <td>{{order.price}}</td>
-                    <td>{{order.total_price}}</td>
-                </tr>
-            </table>
-        </div>
-        <div class="col-lg-6 invoice-table">
-            <p><strong>Invoices:</strong></p>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <td>Nr.</td>
-                    <td>Date</td>
-                    <td>Total</td>
-                    <td>View</td>
-                </tr>
-                </thead>
-                <tr ng-repeat="invoice in allInvoices">
-                    <td>{{invoice.id}}</td>
-                    <td>{{invoice.date}}</td>
-                    <td>{{invoice.total}}</td>
-                    <td ng-click="getInvoiceById(invoice)"><a href="#">View</a></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <div class="row pop-up-bg" style="display: block;" ng-show="showInvoiceFrame">
-        <div class="col-lg-6 .col-lg-offset-3 invoice-frame">
-            <a href="#" class="pop-up-close" ng-click="closePopUpDialog()"></a>
-            <h3>Invoice nr: {{oneInvoice[0].id}}</h3>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <td>Order nr.</td>
-                    <td>Start date</td>
-                    <td>Finish date</td>
-                    <td>Total price</td>
-                </tr>
-                </thead>
-                <tr ng-repeat="oneOrd in orderList">
-                    <td>{{oneOrd.id}}</td>
-                    <td>{{oneOrd.start_date}}</td>
-                    <td>{{oneOrd.stop_date}}</td>
-                    <td>{{oneOrd.total_price}}</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td>{{monthlyFee.desc}}</td>
-                    <td>{{monthlyFee.total}}</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td>Total:</td>
-                    <td>{{oneInvoice[0].total}}</td>
-                </tr>
-            </table>
+    <!--<br><br>-->
 
-        </div>
-    </div>
-</div>
+    <!--<div class="row" ng-show="showAuthForm">-->
+    <!--<p><strong>Add new order:</strong></p>-->
+    <!--<div class="col-lg-12">-->
+    <!--<form class="form-horizontal" role="form" name="addOrderForm" ng-submit="addOrder1()">-->
+    <!--<div class="form-group add-order-form">-->
+    <!--<label class="col-sm-2 control-label">Start date</label>-->
+    <!--<div class="col-sm-10">-->
+    <!--<input type="datetime-local" class="form-control" name="start_park" ng-model="startPark"-->
+    <!--placeholder="yyyy-MM-ddTHH:mm:ss" requiredd>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="form-group add-order-form">-->
+    <!--<label class="col-sm-2 control-label">Finish date</label>-->
+    <!--<div class="col-sm-10">-->
+    <!--<input type="datetime-local" class="form-control" ng-model="stopPark"-->
+    <!--name="stop_park" placeholder="yyyy-MM-ddTHH:mm:ss" requiredd>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="form-group add-order-form">-->
+    <!--<div class="col-sm-offset-2 col-sm-10">-->
+    <!--<button type="submit" class="btn btn-default" ng-disabledd="addOrderForm.$invalid">Add</button>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</form>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--<br><br>-->
+    <!--<div class="row" ng-show="showAuthForm">-->
+        <!--<div class="col-lg-6 order-table">-->
+            <!--<p><strong>Orders:</strong></p>-->
+            <!--<table class="table table-striped">-->
+                <!--<thead>-->
+                <!--<tr>-->
+                    <!--<td>Order nr.</td>-->
+                    <!--<td>Start date</td>-->
+                    <!--<td>Finish date</td>-->
+                    <!--<td>Price per 30 min.</td>-->
+                    <!--<td>Total price</td>-->
+                <!--</tr>-->
+                <!--</thead>-->
+                <!--<tr ng-repeat="order in orders">-->
+                    <!--<td>{{order.id}}</td>-->
+                    <!--<td>{{order.start_date}}</td>-->
+                    <!--<td>{{order.stop_date}}</td>-->
+                    <!--<td>{{order.price}}</td>-->
+                    <!--<td>{{order.total_price}}</td>-->
+                <!--</tr>-->
+            <!--</table>-->
+        <!--</div>-->
+        <!--<div class="col-lg-6 invoice-table">-->
+            <!--<p><strong>Invoices:</strong></p>-->
+            <!--<table class="table table-striped">-->
+                <!--<thead>-->
+                <!--<tr>-->
+                    <!--<td>Nr.</td>-->
+                    <!--<td>Date</td>-->
+                    <!--<td>Total</td>-->
+                    <!--<td>View</td>-->
+                <!--</tr>-->
+                <!--</thead>-->
+                <!--<tr ng-repeat="invoice in allInvoices">-->
+                    <!--<td>{{invoice.id}}</td>-->
+                    <!--<td>{{invoice.date}}</td>-->
+                    <!--<td>{{invoice.total}}</td>-->
+                    <!--<td ng-click="getInvoiceById(invoice)"><a href="#">View</a></td>-->
+                <!--</tr>-->
+            <!--</table>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="row pop-up-bg" style="display: block;" ng-show="showInvoiceFrame">-->
+        <!--<div class="col-lg-6 .col-lg-offset-3 invoice-frame">-->
+            <!--<a href="#" class="pop-up-close" ng-click="closePopUpDialog()"></a>-->
+            <!--<h3>Invoice nr: {{oneInvoice[0].id}}</h3>-->
+            <!--<table class="table table-striped">-->
+                <!--<thead>-->
+                <!--<tr>-->
+                    <!--<td>Order nr.</td>-->
+                    <!--<td>Start date</td>-->
+                    <!--<td>Finish date</td>-->
+                    <!--<td>Total price</td>-->
+                <!--</tr>-->
+                <!--</thead>-->
+                <!--<tr ng-repeat="oneOrd in orderList">-->
+                    <!--<td>{{oneOrd.id}}</td>-->
+                    <!--<td>{{oneOrd.start_date}}</td>-->
+                    <!--<td>{{oneOrd.stop_date}}</td>-->
+                    <!--<td>{{oneOrd.total_price}}</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td></td>-->
+                    <!--<td></td>-->
+                    <!--<td>{{monthlyFee.desc}}</td>-->
+                    <!--<td>{{monthlyFee.total}}</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td></td>-->
+                    <!--<td></td>-->
+                    <!--<td>Total:</td>-->
+                    <!--<td>{{oneInvoice[0].total}}</td>-->
+                <!--</tr>-->
+            <!--</table>-->
+
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-cookies.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"></script>
 <script src="./js/app.js"></script>
-<script src="./js/script.js"></script>
+<script src="./js/navbar.js"></script>
+<script src="./js/main/main.js"></script>
+<script src="./js/registration/registration.js"></script>
+<script src="./js/services/error_msg.js"></script>
+
+<script src="js/navbar.js"></script>
 
 </body>
 </html>
