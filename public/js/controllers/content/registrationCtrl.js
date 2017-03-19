@@ -1,15 +1,8 @@
 'use strict';
 
-angular.module('myApp.registration', ['ngRoute'])
-    .config([
-        '$routeProvider', function($routeProvider) {
-            $routeProvider.when('/registration', {
-                templateUrl: 'js/registration/registration.html',
-                controller: 'RegCtrl'
-            });
-        }
-    ])
-    .controller('RegCtrl', [
+angular.module('myApp.registration', ['ui.router'])
+
+    .controller('registrationCtrl', [
         '$location',
         '$http',
         '$scope',
@@ -18,7 +11,12 @@ angular.module('myApp.registration', ['ngRoute'])
         'errorMsgService',
         function($location, $http, $scope, $rootScope, $cookies, errorMsgService){
 
-            $rootScope.curPath = 'registration';
+            //If user logged in then redirect to root
+            if($cookies.get('username') && $cookies.get('token')){
+                $location.path('/');
+            }
+
+            // $rootScope.curPath = 'registration';
 
             $scope.url = 'http://localhost:3000/api/';
             var serviceMessages = errorMsgService;
@@ -85,7 +83,7 @@ angular.module('myApp.registration', ['ngRoute'])
                         console.log(err);
                     }
                 }
-            };
+            }
 
             //Validate registration fields
             function regFieldsValidation(username, email, password, password_conf) {

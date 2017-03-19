@@ -46,14 +46,14 @@ module.exports = function (app) {
             })
                 .then(function (foundUser) {
                     if (!foundUser) {
-                        res.status(401).json({message:"no such user found"});
+                        res.status(200).json({message:'no such user found'});
                     }
                     if (!bcrypt.compareSync(password, foundUser.password)){
-                        res.status(401).json({message:"passwords did not match"});
+                        res.status(200).json({message:"passwords did not match"});
                     } else {
                         var payload = {id: foundUser.id};
                         var token = jwt.encode(payload, JwtOptions.secretOrKey);
-                        res.json({message: "login successful", token: token});
+                        res.json({message: "login successful", token: token, username: foundUser.username});
                     }
                 });
         });

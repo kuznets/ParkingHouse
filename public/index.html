@@ -5,31 +5,28 @@
     <title>Parking House</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/styles.css">
-    <!--<base href="/">-->
+    <base href="/">
 </head>
 <body ng-app='myApp'>
 
-<nav ng-controller="NavbarCtrl" class="navbar navbar-toggleable-md navbar-inverse bg-inverse navbar-b-margin">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-            data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
-            aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="/">Parking House</a>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav mr-auto">
-            <a class="nav-item nav-link" ng-class="{'active':(curPath == 'main')}" href="/">Home</a>
-            <a class="nav-item nav-link" href="#">Add parking</a>
-        </div>
-        <div class="navbar-nav mt-2 mt-md-0">
-            <a class="nav-item nav-link active" href="#">{{login_username}}</a>
-            <a class="nav-item nav-link active" href="/login">Login</a>
-            <a class="nav-item nav-link active" href="/registration">Sign up</a>
-        </div>
-    </div>
-</nav>
+<ng-include src="'templates/navbar.html'"></ng-include>
+<ui-view></ui-view>
 
-<div ng-view></div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-cookies.js"></script>
+<script src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="./js/app.js"></script>
+<script src="./js/controllers/navbarCtrl.js"></script>
+<script src="./js/controllers/content/mainCtrl.js"></script>
+<script src="./js/controllers/content/registrationCtrl.js"></script>
+<script src="./js/controllers/content/loginCtrl.js"></script>
+<script src="./js/services/error_msg.js"></script>
+
+
+
+</body>
+</html>
+
 
 
 <!--<div class="container" ng-init="checkAuth()">-->
@@ -159,16 +156,3 @@
     <!--</div>-->
 <!--</div>-->
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-cookies.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"></script>
-<script src="./js/app.js"></script>
-<script src="./js/navbar.js"></script>
-<script src="./js/main/main.js"></script>
-<script src="./js/registration/registration.js"></script>
-<script src="./js/services/error_msg.js"></script>
-
-<script src="js/navbar.js"></script>
-
-</body>
-</html>

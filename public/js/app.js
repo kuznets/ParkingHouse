@@ -1,18 +1,35 @@
 'use strict';
 
 var app = angular.module('myApp', [
-    'ngRoute',
+    'ui.router',
     'ngCookies',
     'myApp.main',
     'myApp.navbar',
     'myApp.registration',
-    //'myApp.errorMsgService',
+    'myApp.login',
 ]);
 
-app.config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
-    $locationProvider.html5Mode({
-        enabled: true,
-        requireBase: false
-    });
-    $routeProvider.otherwise({ redirectTo: '/' });
+app.config([
+    '$stateProvider',
+    '$urlRouterProvider',
+    '$locationProvider',
+    function ($stateProvider, $urlRouterProvider, $locationProvider) {
+    $locationProvider.html5Mode(true);
+    $urlRouterProvider.otherwise('/');
+    $stateProvider
+        .state('main', {
+            url: '/',
+            templateUrl: 'templates/content/main.html',
+            controller: 'mainCtrl'
+        })
+        .state('registration', {
+            url: '/registration',
+            templateUrl: 'templates/content/registration.html',
+            controller: 'registrationCtrl'
+        })
+        .state('login', {
+            url: '/login',
+            templateUrl: 'templates/content/login.html',
+            controller: 'loginCtrl'
+        });
 }]);

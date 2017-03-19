@@ -33,7 +33,6 @@ var orderController = require(__dirname + '/controllers/OrderController.js')(app
 var invoiceController = require(__dirname + '/controllers/InvoiceController.js')(app);
 
 
-
 app.use(logErrors);
 app.use(clientErrorHandler);
 app.use(errorHandler);

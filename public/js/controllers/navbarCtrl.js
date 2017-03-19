@@ -2,24 +2,20 @@
 
 angular.module('myApp.navbar', [])
 
-    .controller('NavbarCtrl', [
-        '$scope', '$cookies', function ($scope, $cookies) {
+    .controller('navbarCtrl', [
+        '$scope', '$rootScope', '$cookies', '$location', function ($scope, $rootScope, $cookies, $location) {
 
-        if($cookies.username && $cookies.token) {
-            $scope.login_username = $cookies.username;
-            console.log('navbar true');
-            console.log($scope.login_username);
-        }
+            if ($cookies.get('username') && $cookies.get('token')) {
+                $rootScope.login_username = $cookies.get('username')
+            }
 
+            $scope.logout = function () {
+                $cookies.remove('username');
+                $cookies.remove('token');
+                $rootScope.login_username = undefined;
 
-
-
-
-
-
-
-
-
+                $location.path('/index.html');
+            }
 
             // $scope.url = 'http://localhost:3000/api/';
             // $scope.users = [

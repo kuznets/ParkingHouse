@@ -2,10 +2,19 @@ var Sequelize = require('sequelize');
 var sequelize = require('../config/db');
 
 var userSchema = {
-    username: Sequelize.STRING,
-    email: Sequelize.STRING,
-    password: Sequelize.STRING,
-    token: Sequelize.STRING
+    username: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
+    email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+    },
+    password: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
 }
 
 module.exports = sequelize().define('users', userSchema);
