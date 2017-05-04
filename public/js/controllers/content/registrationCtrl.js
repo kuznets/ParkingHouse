@@ -19,38 +19,38 @@ angular.module('myApp.registration', ['ui.router'])
             // $rootScope.curPath = 'registration';
 
             $scope.url = 'http://localhost:3000/api/';
-            var serviceMessages = errorMsgService;
+            let serviceMessages = errorMsgService;
             //Registration
             $scope.signup = function() {
                 //Registration fields validation
-                var validMsg = regFieldsValidation($scope.regUsername, $scope.regEmail, $scope.regPwd, $scope.regPwdConf);
+                let validMsg = regFieldsValidation($scope.regUsername, $scope.regEmail, $scope.regPwd, $scope.regPwdConf);
                 if (Object.keys(validMsg).length != 0) {
                     $scope.error_msg = validMsg;
                     if(validMsg.error_msg.username) {;
-                        var usernameBlock = angular.element(document.querySelector('.username'));
+                        let usernameBlock = angular.element(document.querySelector('.username'));
                         usernameBlock.addClass('has-danger');
-                        var usernameInput = usernameBlock.find('input');
+                        let usernameInput = usernameBlock.find('input');
                         usernameInput.addClass('form-control-danger');
                         $scope.err_msg_username = serviceMessages.registration[validMsg.error_msg.username];
                     }
                     if(validMsg.error_msg.email) {
-                        var emailBlock = angular.element(document.querySelector('.email'));
+                        let emailBlock = angular.element(document.querySelector('.email'));
                         emailBlock.addClass('has-danger');
-                        var emailInput = emailBlock.find('input');
+                        let emailInput = emailBlock.find('input');
                         emailInput.addClass('form-control-danger');
                         $scope.err_msg_email = serviceMessages.registration[validMsg.error_msg.email];
                     }
                     if(validMsg.error_msg.password) {
-                        var passwordBlock = angular.element(document.querySelector('.password'));
+                        let passwordBlock = angular.element(document.querySelector('.password'));
                         passwordBlock.addClass('has-danger');
-                        var passwordInput = passwordBlock.find('input');
+                        let passwordInput = passwordBlock.find('input');
                         passwordInput.addClass('form-control-danger');
                         $scope.err_msg_password = serviceMessages.registration[validMsg.error_msg.password];
                     }
                     if(validMsg.error_msg.password_conf) {
-                        var passwordConfBlock = angular.element(document.querySelector('.password-conf'));
+                        let passwordConfBlock = angular.element(document.querySelector('.password-conf'));
                         passwordConfBlock.addClass('has-danger');
-                        var passwordConfInput = passwordConfBlock.find('input');
+                        let passwordConfInput = passwordConfBlock.find('input');
                         passwordConfInput.addClass('form-control-danger');
                         $scope.err_msg_password_conf = serviceMessages.registration[validMsg.error_msg.password_conf];
                     }
@@ -75,11 +75,12 @@ angular.module('myApp.registration', ['ui.router'])
                             }
                             if(res.data.username) {
                                 $cookies.put('username', res.data.username, { expires: new Date(Date.now() + 1209600000) });
+                                $rootScope.login_username = $cookies.get('username')
                             }
-                            $location.path('/');
+                            $location.path('/index.html');
                         }
                     }), function (err) {
-                        console.log('Fail:');
+                        // console.log('Fail:');
                         console.log(err);
                     }
                 }
@@ -87,27 +88,27 @@ angular.module('myApp.registration', ['ui.router'])
 
             //Validate registration fields
             function regFieldsValidation(username, email, password, password_conf) {
-                var data = {};
-                var error_msg = {};
+                let data = {};
+                let error_msg = {};
                 //username
-                var username_msg = usernameValidation(username);
+                let username_msg = usernameValidation(username);
                 if(username_msg != 'ok') {
                     error_msg.username = username_msg;
                 }
 
                 //email
-                var email_msg = emailValidation(email);
+                let email_msg = emailValidation(email);
                 if(email_msg != 'ok') {
                     error_msg.email = email_msg;
                 }
 
                 //password
-                var password_msg = passwordValidation(password);
+                let password_msg = passwordValidation(password);
                 if(password_msg != 'ok') {
                     error_msg.password = password_msg;
                 }
 
-                var password_conf_msg = passwordConfValidation(password, password_conf);
+                let password_conf_msg = passwordConfValidation(password, password_conf);
                 if(password_conf_msg != 'ok') {
                     error_msg.password_conf = password_conf_msg;
                 }

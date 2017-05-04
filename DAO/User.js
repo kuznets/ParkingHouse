@@ -1,54 +1,26 @@
-var Sequelize = require('sequelize');
-var sequelize = require('../config/db');
+'use strict';
 
-var userSchema = {
-    username: {
-        type: Sequelize.STRING,
-        allowNull: false,
-    },
-    email: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-    },
-    password: {
-        type: Sequelize.STRING,
-        allowNull: false,
-    },
+module.exports = function (sequelize, Sequelize) {
+    const User = sequelize.define('users', {
+        id: {
+            type: Sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+        },
+        username: {
+            type: Sequelize.STRING,
+            allowNull: false,
+        },
+        email: {
+            type: Sequelize.STRING,
+            allowNull: false,
+            unique: true,
+        },
+        password: {
+            type: Sequelize.STRING,
+            allowNull: false,
+        },
+    });
+
+    return User;
 }
-
-module.exports = sequelize().define('users', userSchema);
-
-
-
-// var db = require(__dirname + '/../db/db.js');
-//
-// exports.findAll = function () {
-//     var query = db.users;
-//     return query;
-// }
-//
-// exports.findOne = function (username) {
-//     var userList = db.users;
-//     var foundUser;
-//     userList.forEach(function (item, i, arr) {
-//         for (var key in item) {
-//             if (key == 'username' && item[key] == username) {
-//                 foundUser = item;
-//                 break;
-//             }
-//         }
-//     });
-//     return foundUser;
-// }
-//
-// exports.getUserRole = function (username) {
-//     var userList = db.users;
-//     var foundRole;
-//     userList.forEach(function (item, i, arr) {
-//         if ( item.username == username) {
-//             foundRole = item.role;
-//         }
-//     });
-//     return foundRole;
-// }

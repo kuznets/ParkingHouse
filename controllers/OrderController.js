@@ -1,61 +1,98 @@
-var bodyParser = require('body-parser');
-var db = require(__dirname + '/../db/db.js');
-var Order = require(__dirname + '/../DAO/Order.js');
-var User = require(__dirname + '/../DAO/User.js');
-var authorize = require(__dirname + '/authorize.js');
-//var orderBuilder = require(__dirname + '/orderBuilder.js');
+/**
+ * The Order API
+ *
+ * routes:
+ *  /api/orders
+ */
+'use strict';
+const bodyParser = require('body-parser');
+const db = require('../config/db.js');
 
-module.exports = function (app) {
-    //Find one order
-    app.get('/api/order/:id', function (req, res) {
-        var foundUser = authorize(req);
-        if (foundUser) {
-            var foundOrder = Order.findOne(req.params.id);
-            if (!foundUser) {
-                res.status(404).send('Order not found.');
-            }
-            res.send(foundOrder);
-        } else {
-            res.sendStatus(401);
-        }
+exports.create = {};
+
+exports.getAllOrders = getAllOrders;
+exports.create.addNewOrder = addNewOrder;
+
+/**
+ * GET /api/orders
+ * Return all user orders from db.
+ * @method getAllOrders
+ * @return json {message: 'status information', body: 'object of orders'}
+ */
+function getAllOrders(req, res, next) {
+    if (!req.decoded) {
+        return res.status(403).send({
+            success: false,
+            message: 'No token provided.'
+        });
+    }
+    db.orders.findAll({where: {userId: req.decoded.id}})
+        .then(function (orders) {
+            let ordersList = [];
+            orders.forEach(function (item, i, arr) {
+                let order = {};
+                order.id = item['id'];
+                order.startDate = item['startDate'];
+                order.stopDate = item['stopDate'];
+                order.price = item['price'];
+                order.totalPrice = item['totalPrice'];
+                ordersList.push(order);
+            });
+            res.json({message: 'OK', body: ordersList});
+        })
+        .catch(function (err) {
+            res.status(200).send('User not found');
+            next();
+        });
+}
+
+/**
+ * POST /api/order
+ * Get order data from client and add new order to db. Then return all orders by user id.
+ * @method addNewOrder
+ * @return json {message: 'status information'}
+ */
+function addNewOrder(req, res, next) {
+    if (!req.decoded) {
+        return res.status(403).send({
+            success: false,
+            message: 'No token provided.'
+        });
+    }
+    let newOrder = {};
+    newOrder.startDate = req.body.startDate;
+    newOrder.stopDate = req.body.stopDate;
+    let parkPriceRate = 1;
+    newOrder.price = parkPriceRate;
+    //Get total minutes
+    let parkTotalMin = (req.body.stopDate - req.body.startDate) / 1000 / 60;
+    //Get the number of periods of 30 minutes
+    let parkRegPeriod = parkTotalMin / 30;
+    parkRegPeriod = Math.round(parkRegPeriod); //Issue: if example parking = 5min, then rounds to zero.
+    newOrder.totalPrice = parkRegPeriod * parkPriceRate;
+    newOrder.userId = req.decoded.id;
+    db.orders.create(newOrder).then(function (order) {
+        //Get all orders
+        db.orders.findAll({where: {userId: req.decoded.id}})
+            .then(function (orders) {
+                let ordersList = [];
+                orders.forEach(function (item, i, arr) {
+                    let order = {};
+                    order.id = item['id'];
+                    order.startDate = item['startDate'];
+                    order.stopDate = item['stopDate'];
+                    order.price = item['price'];
+                    order.totalPrice = item['totalPrice'];
+                    ordersList.push(order);
+                });
+                //console.log('all arders after create new: ', ordersList);
+                res.json({message: 'order added', body: ordersList});
+            })
+            .catch(function (err) {
+                res.status(200).send('User not found');
+            });
+    }).catch(function (err) {
+        res.status(200).send('Order not created');
+        next();
     });
-
-    //Find all orders by username
-    app.get('/api/orders', function (req, res) {
-        var foundUser = authorize(req);
-        if (foundUser) {
-            var userOrders = Order.findByUsername(req.cookies.username);
-            if (userOrders.length > 0) {
-                res.send(userOrders);
-            } else {
-                res.status(404).send('Orders not found.');
-            }
-        } else {
-            res.sendStatus(401);
-        }
-    });
-
-    //Add Order
-    // app.post('/api/order', function (req, res) {
-    //     var foundUser = authorize(req);
-    //     if (foundUser) {
-    //         var user = User.findOne(req.body.username);
-    //         if (!user) {
-    //             res.status(404).send('User not found.');
-    //         }
-    //
-    //         var buildOrders = orderBuilder.getOrders(req.body.start_date, req.body.stop_date, user.username);
-    //         if (buildOrders) {
-    //             var userOrders = Order.findByUsername(req.cookies.username);
-    //             if (userOrders.length > 0) {
-    //                 res.send(userOrders);
-    //             } else {
-    //                 res.status(404).send('Orders not found.');
-    //             }
-    //         } else {
-    //             res.sendStatus(401);
-    //         }
-    //     }
-    // });
-
 }

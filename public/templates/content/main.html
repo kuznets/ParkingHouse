@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" ng-show="!login_username">
     <div class="row justify-content-center">
         <div class=".col-lg-6 .offset-lg-3">
             <h2>Parking House - example project</h2>
@@ -12,3 +12,120 @@
         </div>
     </div>
 </div>
+<div class="container-fluid" ng-show="login_username">
+    <div class="row">
+        <div class="col">
+            <h4>Add a new parking time:</h4>
+        </div>
+    </div>
+    <div class="datepicker row">
+        <div class="col form-control-feedback">{{err_msg_datepicker}}</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 float-left">
+            <span>Start date:  </span>
+            <form name="startDateForm" class="startDateForm">
+                <datetimepicker
+                        hour-step="hourStep"
+                        minute-step="minuteStep"
+                        ng-model="startDate"
+                        show-meridian="showMeridian"
+                        date-format="dd-MMM-yyyy"
+                        date-options="dateOptions"
+                        date-disabled="disabled(date, mode)"
+                        datepicker-append-to-body="false"
+                        readonly-date="false"
+                        disabled-date="false"
+                        hidden-time="false"
+                        hidden-date="false"
+                        name="datetimepicker"
+                        show-spinners="true"
+                        readonly-time="false"
+                        date-opened="dateOpened"
+                        show-button-bar="false"
+                >
+                </datetimepicker>
+            </form>
+        </div>
+        <div class="col-lg-4 float-left">
+            <span>Stop date:  </span>
+            <form name="stopDateForm" class="stopDateForm">
+                <datetimepicker hour-step="hourStep"
+                                minute-step="minuteStep"
+                                ng-model="stopDate"
+                                show-meridian="showMeridian"
+                                date-format="dd-MMM-yyyy"
+                                date-options="dateOptions"
+                                date-disabled="disabled(date, mode)"
+                                datepicker-append-to-body="false"
+                                readonly-date="false"
+                                hidden-time="false"
+                                hidden-date="false"
+                                name="datetimepicker"
+                                show-spinners="true"
+                                readonly-time="false"
+                                date-opened="dateOpened"
+                >
+                </datetimepicker>
+            </form>
+        </div>
+        <div class="float-clear"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 float-left">
+            <button class="btn btn-default btn-sm" ng-click="startDateTimeNow()" tooltip="Set date and time to now">
+                Now
+            </button>
+        </div>
+        <div class="col-lg-4 float-left">
+            <button class="btn btn-default btn-sm" ng-click="stopDateTimeNow()" tooltip="Set date and time to now">Now
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <br>
+            <button class="btn btn-default btn-sm" ng-click="addNewOrder(startDate, stopDate)">Add record</button>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-6 order-table">
+            <h4>My orders:</h4>
+            <table class="table table-striped">
+                <thead>
+                <th>Nr.</th>
+                <th>Start parking date</th>
+                <th>Stop parking date</th>
+                <th>Price per 1/2H</th>
+                <th>Total price</th>
+                </thead>
+                <tr ng-repeat="order in orders">
+                    <td>{{order.id}}</td>
+                    <td>{{order.startDate}}</td>
+                    <td>{{order.stopDate}}</td>
+                    <td>{{order.price}}</td>
+                    <td>{{order.totalPrice}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-lg-6 invoice-table">
+            <h4>My invoiced:</h4>
+            <table class="table table-striped">
+                <thead>
+                <th>Nr.</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th>View</th>
+                </thead>
+                <tr ng-repeat="invoice in allInvoices">
+                    <td>{{invoice.id}}</td>
+                    <td>{{invoice.date}}</td>
+                    <td>{{invoice.total}}</td>
+                    <td ng-click="getInvoiceById(invoice)"><a href="#">View</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+

@@ -1,36 +1,29 @@
-var db = require(__dirname + '/../db/db.js');
+'use strict';
 
-exports.findAll = function() {
-    var query = db.orders;
-    return query;
-}
-
-exports.findOne = function(id) {
-    var orderList = db.orders;
-    var foundOrders;
-    orderList.forEach(function (item, i, arr) {
-        for (var key in item) {
-            if (key == 'id' && item[key] == id) {
-                foundOrders = item;
-                break;
-            }
-        }
+module.exports = function (sequelize, Sequelize) {
+    const Order = sequelize.define('orders', {
+        id: {
+            type: Sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+        },
+        startDate: {
+            type: Sequelize.BIGINT,
+            allowNull: false,
+        },
+        stopDate: {
+            type: Sequelize.BIGINT,
+            allowNull: false,
+        },
+        price: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+        },
+        totalPrice: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+        },
     });
-    return foundOrders;
-}
 
-exports.findByUsername = function(username) {
-    var orderList = db.orders;
-    var foundOrders= [];
-    orderList.forEach(function (item, i, arr) {
-        if (item.username == username) {
-            foundOrders.push(item);
-        }
-    });
-    return foundOrders;
-}
-
-//Add new order
-exports.addOrder = function (order) {
-    db.orders.push(order);
+    return Order;
 }

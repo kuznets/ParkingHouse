@@ -7,6 +7,9 @@ var app = angular.module('myApp', [
     'myApp.navbar',
     'myApp.registration',
     'myApp.login',
+    'myApp.newOrder',
+    'ui.bootstrap',
+    'ui.bootstrap.datetimepicker',
 ]);
 
 app.config([
@@ -31,5 +34,10 @@ app.config([
             url: '/login',
             templateUrl: 'templates/content/login.html',
             controller: 'loginCtrl'
+        })
+        .state('new-order', {
+            url: '/new-order',
+            templateUrl: 'templates/content/newOrder.html',
+            controller: 'newOrderCtrl'
         });
 }]);

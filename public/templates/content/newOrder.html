@@ -1,0 +1,91 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <h4>Add a new parking time:</h4>
+        </div>
+    </div>
+    <div class="datepicker row">
+            <div class="col form-control-feedback">{{err_msg_datepicker}}</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 float-left">
+            <span>Start date:  </span>
+            <form name="startDateForm" class="startDateForm">
+                <datetimepicker
+                        hour-step="hourStep"
+                        minute-step="minuteStep"
+                        ng-model="startDate"
+                        show-meridian="showMeridian"
+                        date-format="dd-MMM-yyyy"
+                        date-options="dateOptions"
+                        date-disabled="disabled(date, mode)"
+                        datepicker-append-to-body="false"
+                        readonly-date="false"
+                        disabled-date="false"
+                        hidden-time="false"
+                        hidden-date="false"
+                        name="datetimepicker"
+                        show-spinners="true"
+                        readonly-time="false"
+                        date-opened="dateOpened"
+                        show-button-bar="false"
+                >
+                </datetimepicker>
+            </form>
+        </div>
+        <div class="col-lg-4 float-left">
+            <span>Stop date:  </span>
+            <form name="stopDateForm" class="stopDateForm">
+                <datetimepicker hour-step="hourStep"
+                                minute-step="minuteStep"
+                                ng-model="stopDate"
+                                show-meridian="showMeridian"
+                                date-format="dd-MMM-yyyy"
+                                date-options="dateOptions"
+                                date-disabled="disabled(date, mode)"
+                                datepicker-append-to-body="false"
+                                readonly-date="false"
+                                hidden-time="false"
+                                hidden-date="false"
+                                name="datetimepicker"
+                                show-spinners="true"
+                                readonly-time="false"
+                                date-opened="dateOpened"
+                >
+                </datetimepicker>
+            </form>
+        </div>
+        <div class="float-clear"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 float-left">
+            <button class="btn btn-default btn-sm" ng-click="startDateTimeNow()" tooltip="Set date and time to now">
+                Now
+            </button>
+        </div>
+        <div class="col-lg-4 float-left">
+            <button class="btn btn-default btn-sm" ng-click="stopDateTimeNow()" tooltip="Set date and time to now">Now
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 float-left">
+            <pre>Model: {{startDateForm | json}}</pre>
+        </div>
+        <div class="col-lg-4 float-left">
+            <pre>Model: {{stopDateForm | json}}</pre>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <br>
+            <button class="btn btn-default btn-sm" ng-click="addNewOrder(startDate, stopDate)">Add record</button>
+        </div>
+    </div>
+    <hr>
+</div>
+
+
+<!--<p>startDate: {{startDate}}</p>-->
+<!--<p>startDateToMs: {{startDateToMs()}}</p>-->
+<!--<p>startDate2: {{startDate}}</p>-->

@@ -50,3 +50,66 @@
     z-index: 501;
     display: block;
 }
+
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.glyphicon-chevron-right {
+     background: url("../img/glyphicons/png/glyphicons-224-chevron-right.png") 40% 40% no-repeat;
+     background-size: 12px 12px;
+     width: 12px;
+     height: 12px;
+ }
+.glyphicon-chevron-left {
+    background: url("../img/glyphicons/png/glyphicons-225-chevron-left.png") 40% 40% no-repeat;
+    background-size: 12px 12px;
+    width: 12px;
+    height: 12px;
+}
+.glyphicon-chevron-up {
+     background: url("../img/glyphicons/png/glyphicons-601-chevron-up.png") 40% 40% no-repeat;
+     background-size: 12px 12px;
+     width: 12px;
+     height: 12px;
+ }
+.glyphicon-chevron-down {
+    background: url("../img/glyphicons/png/glyphicons-602-chevron-down.png") 40% 40% no-repeat;
+    background-size: 12px 12px;
+    width: 12px;
+    height: 12px;
+}
+.btn-default {
+    background-color: #fff;
+    border-color: #ccc;
+}
+.float-left {
+    float: left;
+}
+.float-right {
+    float: right;
+}
+.float-clear {
+    clear: both;
+}
+.has-error .form-control {
+    border-color: #a94442;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+.has-error .form-control:focus {
+    border-color: #843534;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+}
+.has-error .form-control-feedback {
+    color: #a94442;
+}

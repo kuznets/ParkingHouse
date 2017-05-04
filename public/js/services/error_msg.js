@@ -13,7 +13,9 @@ angular.module('myApp').factory('errorMsgService', function () {
             '3.3': 'password must use lower, upper case characters and numbers [0-9]',
             '4.1': 'password confirmation undefined',
             '4.2': 'password and password confirmation must match',
-
+        },
+        date:{
+            '1.1': 'Start date can be less then stop date!',
         }
     };
 });
